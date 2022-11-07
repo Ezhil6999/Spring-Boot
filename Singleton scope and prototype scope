@@ -1,0 +1,56 @@
+package com.example.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+
+@SpringBootApplication
+public class DemoApplication {
+
+	public static void main(String[] args) {
+		//SpringApplication.run()-->Set up default configuration
+		                   //    -->Start spring Application Context
+                           //    -->Start and stop TomCat server
+                           //    -->Class path scan (like import packages)
+		ConfigurableApplicationContext context=SpringApplication.run(DemoApplication.class, args);
+		home h=context.getBean(home.class);
+	    h.connect();
+	    //Singleton scope
+	     // call constructor only one
+	    home h1=context.getBean(home.class);
+	    h1.connect();
+	    //prototype scope
+	     //can call constructor many time by adding @Scope(value="prototype")  
+	}
+
+}
+package com.example.demo;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component
+@Scope(value="prototype")
+public class home {
+   //POJO classes
+   private String owner;
+   private int doornum;
+   public home() {
+	   System.out.println("hi Ezhil ");
+   }
+public String getOwner() {
+	return owner;
+}
+public void setOwner(String owner) {
+	this.owner = owner;
+}
+public int getDoornum() {
+	return doornum;
+}
+public void setDoornum(int doornum) {
+	this.doornum = doornum;
+}
+public void connect() {
+	System.out.println("Connecting to internet");
+}
+}
